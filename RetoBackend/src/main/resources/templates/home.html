@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head.html :: head}">
+</head>
+
+<body>
+
+    <div th:replace="~{fragments/bodysHeader.html :: header}">
+    </div>
+
+    <p>Dale click donde quieras mover la bola</p>
+    <div id="foo" class="ball"></div>
+   <script>
+       var f = document.getElementById('foo');
+    document.addEventListener('click', function(ev){
+    f.style.transform = 'translateY('+(ev.clientY-25)+'px)';
+    f.style.transform += 'translateX('+(ev.clientX-25)+'px)';
+    },false);
+   </script>
+   
+
+    <main>
+
+        <div class="columnasMain">
+            <div class="columnas">
+
+                <div class="divsProduct" th:each="producto : ${productos}" th:object="${producto}">
+
+                    <div class="titleProduct">
+                        <span class="bodyStyle titulin" th:text="*{nombreProducto} "></span>
+                    </div>
+
+                    <div class="divImgProduct">
+                        <img class="imgProduct" th:src="*{Img}" />
+                    </div>
+
+                    <div class="price">
+                        <span class="bodyStyle" th:text="'$' + *{precio}"></span>
+                    </div>
+
+                    <div class="buttonsProduct" style="text-align: center;">
+                        <div>
+                            <h2>Favoritos</h2>
+                            <a th:href="@{|/pedidos/${pedido.idPedido}/favoritos/add/*{idProducto}|}">
+                                <Button class="button2" th:text="#{addWhise}"></Button>
+                            </a>
+                            <a th:href="@{|/pedidos/${pedido.idPedido}/favoritos/remove/*{idProducto}|}">
+                                <Button class="button2" th:text="#{removeWhise}" ></Button>
+                            </a>
+                        </div>
+                        <div>
+                            <h2>Carrito</h2>
+                            <a th:href="@{|/pedidos/${pedido.idPedido}/add/*{idProducto}|}">
+                                <Button class="button1" th:text="#{addCart}"></Button>
+                            </a>
+                            <a th:href="@{|/pedidos/${pedido.idPedido}/remove/*{idProducto}|}">
+                                <Button class="button1" th:text="#{removeCart}"></Button>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="columnaCarrito">
+                <div class="carrito">
+                    <div class="carritoCart">
+                        <h2 th:text="#{cartOrder} "></p>
+                    </div>
+                    <hr>
+
+                        <div class="carritoList">
+                            <p th:text="#{productOrder} "></p>
+
+                            <p>Id pedido</p> 
+                            <span th:text="${pedido.idPedido}"></span>
+                            <p>Usuario</p> 
+                            <span th:text="${pedido.nombreUsuario}"></span>
+                            <p>Estado pedido</p> 
+                            <span th:text="${pedido.estado}"></span>
+                            <p>Fecha pedido</p> 
+                            <span th:text="${pedido.fechaCreacion}"></span>
+
+                            <ul>
+                            <div th:each="orderProduct : ${pedido.productitos}" th:object="${orderProduct}">
+                                <div th:if="${orderProduct.cantProductos} > 0">
+                                    <span th:text="${orderProduct.cantProductos}"></span>
+                                    <span th:text="${orderProduct.productos.nombreProducto}"></span>
+                                    <span th:text="${orderProduct.productos.precio}"></span>
+                                    
+                                </div>
+                            </div>
+                        </ul>
+                        <div class="carritoTotal">
+                            <span th:text="${pedido.precioTotal} + '$'"></span>
+                        </div>
+                        <hr class="hrTotal">
+                    </div>
+                    <div class="carritoCheckout">
+                        <a th:href="@{|/pedidos/new|}">
+                            <Button class="button" th:text="#{newcart}" style="width:80px; "></Button>                        
+                        </a>
+                            <a th:href="@{|/lpedidos|}" >
+                                <Button class="button" th:text="#{listOrders}" style="width:80px; "></Button>                   
+                            </a>
+                    </div>
+                    <div class="columnaFavoritos">
+                        <h1 th:text="#{cartfavoritos} "></h1>
+                        <div th:each="producto : ${pedido.listaFavoritos}" th:object="${producto}">
+                            <span th:text="'ID: ' +  ${producto.idProducto}"></span>
+                            <span th:text="'   ' + ${producto.nombreProducto}"></span>
+                            <span th:text="'   ' + ${producto.precio} + '$'"></span>
+                        </div>
+                        <div>
+                            <a th:href="@{|/favoritos|}" >
+                                <Button class="button" th:text="#{favoritos} "></Button>  
+                                              
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            
+        </div>
+    </main>
+</body>
+
+
+</html>
