@@ -16,26 +16,22 @@
                 th:class="list-group-item">
                 <span th:class="*{idProducto} % 2 != 0? 'odd': _"
                 th:text="*{nombreProducto}"
-                style="display:inline-block;width:50%"></span>
+                style="display:inline-block;width:30%"></span>
                 <img class="imgProduct2" th:src="*{Img}"/>
-                <span class="bodyStyle" th:text="'$' + *{precio}"></span>
+                <span class="bodyStyle" th:text="'$' + *{precio}"
+                style="display:inline-block;width:40%"></span>
 
-                <li class="imgProduct2" th:src="*{Img}"></li>
-                <li class="bodyStyle" th:text="'$' + *{precio}"></li>
-               
-                    <li th:href="@{|/pedidos/${idPedido}/add/*{idProducto}|}">
-                        <Button class="button1" th:text="#{addCart}" ></Button>
-                    </li>
-                    <a th:href="@{|/pedidos/${pedido}/remove/*{idProducto}|}">
-                        <Button class="button1" th:text="#{removeCart}" ></Button>
-                    </a>
-                </div>
+                <a th:ref="@{|/pedidos/${idPedido}/add/*{idProducto}|}">
+                    <Button class="button1" th:text="#{addCart}"></Button>
+                </a>
+                <a th:href="@{|/pedidos/${pedido}/remove/*{idProducto}|}">
+                    <Button class="button1" th:text="#{removeCart}" ></Button>
+                </a>
             </li>
 
-            </li>
             <li th:class="list-group-item">
                 <form th:action="@{/home/}">
-                    <input type="submit" th:value="#{new}" class="btn btn-primary">
+                    <input type="submit" th:value="#{back}" class="btn btn-primary">
                 </form>
             </li>
         </ul>
