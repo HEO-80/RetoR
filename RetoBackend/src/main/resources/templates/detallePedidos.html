@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head.html :: head}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/bodysHeader.html :: header}">
+    </div>
+    <main>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                  
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Estado</th>
+                    <th>Productos</th>
+                    <th>Total</th>
+                    <th>Detalle</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pedido : ${pedidos}" th:object="${pedido}">
+                    <td th:text="*{idPedido}"></td>
+                    <td th:text="*{FechaCreacion}"></td>
+                    <td th:text="*{NombreUsuario}"></td>
+                    <td th:text="*{Estado}"></td>
+
+                   
+                        <td>
+                            <ul>
+                                <div th:each="orderProduct : ${pedido.productitos}" th:object="${orderProduct}">
+                                    <div th:if="${orderProduct.cantProductos} > 0">
+                                       <span th:text="${orderProduct.cantProductos}"></span>
+                                       <span th:text="${orderProduct.productos.nombreProducto}"></span>
+                                        <span th:text="${orderProduct.productos.precio}"></span> 
+                                       <img class="imgProductl"  th:src="${orderProduct.productos.img}"></img> 
+                                           <a th:href="@{|/pedidos/${pedido.idPedido}/add/${orderProduct.productos.idProducto}|} ">
+                                        <button class="op"> + </button>
+                                        </a>
+                                        <a th:href="@{|/pedidos/${pedido.idPedido}/remove/${orderProduct.productos.idProducto}|} ">
+                                    <button class="op"> -  </button>
+                                </a>  
+                                    </div>
+                                </div>
+                            </ul> 
+                        </td>
+                        <td th:text="*{precioTotal}"></td>
+                        <td>
+                            <a >
+                                <button class="button">Editar</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a th:href="@{|/pedidos/borrar/${pedido.idPedido}|} ">
+                                <Button class="button">Eliminar</Button>
+                            </a>
+                        </td>
+
+
+                <tr th:each="producto : ${productitos}" th:object="${producto}">
+                    <td th:text="*{cantProductos}"></td>
+                    <td th:text="*{nombreProducto}"></td>
+                    <td th:text="*{precio}"></td>
+                    <td th:text="*{precioProducto}"></td>
+                    <td th:text="*{PrecioTotal}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+ 
+    </main>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
