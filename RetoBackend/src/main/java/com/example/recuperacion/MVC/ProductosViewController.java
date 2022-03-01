@@ -56,4 +56,11 @@ public class ProductosViewController {
         return mv;
     }
 
+    @GetMapping("/favoritos")
+    public ModelAndView verFavoritos() {
+        ModelAndView m = new ModelAndView("/listaFavoritos");
+        m.addObject("pedido", PedidosController.pedidos);
+        m.addObject("productos", ProductosController.productos);
+        return m;
+    }
 }

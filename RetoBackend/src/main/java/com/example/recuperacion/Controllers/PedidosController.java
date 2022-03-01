@@ -112,4 +112,22 @@ public class PedidosController {
         }
     }
 
+    @GetMapping("/v2/Pedidos/{idPedido}/Favoritos/add/{idProducto}")
+    public static Pedidos addProductoAFavoritos(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        PedidosController.GetPedidosById(idPedido).listaFavoritos
+                .add(ProductosController.FindProductoByIdProducto(idProducto));
+        return pedidos.get(idPedido); // devuelve el ultimo elemento de la lista (el que hemos añadido)
+    }
+
+    @DeleteMapping("/v2/Pedidos/{idPedido}/Favoritos/delete/{idProducto}")
+    public static void deleteProductoFromFavoritos(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        try {
+            PedidosController.GetPedidosById(idPedido).listaFavoritos
+                    .remove(ProductosController.FindProductoByIdProducto(idProducto));
+        } catch (Exception e) {
+
+        }
+    }
 }

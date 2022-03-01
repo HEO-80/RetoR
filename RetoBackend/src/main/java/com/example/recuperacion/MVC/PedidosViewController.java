@@ -49,6 +49,7 @@ public class PedidosViewController {
         return mv;
     }
 
+    // nuevo pedido
     @GetMapping("/pedidos/new")
     public ModelAndView CreatePedido() {
         ModelAndView m = new ModelAndView("home");
@@ -57,6 +58,7 @@ public class PedidosViewController {
         return m;
     }
 
+    // borrar pedido por id
     @GetMapping("/pedidos/borrar/{idPedido}")
     public ModelAndView DeleteOrder(@PathVariable int idPedido) {
         ModelAndView m = new ModelAndView("/home");
@@ -68,6 +70,7 @@ public class PedidosViewController {
         return m;
     }
 
+    // añadir producto a pedido
     @GetMapping("/pedidos/{idPedido}/add/{idProducto}")
     public static ModelAndView addProductoToPedido(@PathVariable("idPedido") int idPedido,
             @PathVariable("idProducto") int idProducto) {
@@ -78,11 +81,34 @@ public class PedidosViewController {
         return m;
     }
 
+    // borrar producto de pedido
     @GetMapping("/pedidos/{idPedido}/remove/{idProducto}")
     public static ModelAndView removeProductoFromPedido(@PathVariable("idPedido") int idPedido,
             @PathVariable("idProducto") int idProducto) {
         ModelAndView m = new ModelAndView("home");
         PedidosController.deleteProductoFromPedidos(idPedido, idProducto);
+        m.addObject("pedido", PedidosController.GetPedidosById(idPedido));
+        m.addObject("productos", ProductosController.productos);
+        return m;
+    }
+
+    // añadir a favoritos
+    @GetMapping("/pedidos/{idPedido}/favoritos/add/{idProducto}")
+    public ModelAndView addProductoToFavoritos(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        ModelAndView m = new ModelAndView("home");
+        PedidosController.addProductoAFavoritos(idPedido, idProducto);
+        m.addObject("pedido", PedidosController.GetPedidosById(idPedido));
+        m.addObject("productos", ProductosController.productos);
+        return m;
+    }
+
+    // borrar de favoritos
+    @GetMapping("/pedidos/{idPedido}/favoritos/remove/{idProducto}")
+    public static ModelAndView removeProductoFromFavoritos(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        ModelAndView m = new ModelAndView("home");
+        PedidosController.deleteProductoFromFavoritos(idPedido, idProducto);
         m.addObject("pedido", PedidosController.GetPedidosById(idPedido));
         m.addObject("productos", ProductosController.productos);
         return m;
