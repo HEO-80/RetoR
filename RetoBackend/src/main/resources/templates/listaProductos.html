@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head.html :: head}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/bodysHeader.html :: header}">
+    </div>
+    <main>
+
+
+
+        <ul th:class="list-group">
+            <li th:each="producto : ${productos}" th:object="${producto}"
+                th:class="list-group-item">
+                <span th:class="*{idProducto} % 2 != 0? 'odd': _"
+                th:text="*{nombreProducto}"
+                style="display:inline-block;width:50%"></span>
+                <img class="imgProduct2" th:src="*{Img}"/>
+                <span class="bodyStyle" th:text="'$' + *{precio}"></span>
+
+                <li class="imgProduct2" th:src="*{Img}"></li>
+                <li class="bodyStyle" th:text="'$' + *{precio}"></li>
+               
+                    <li th:href="@{|/pedidos/${idPedido}/add/*{idProducto}|}">
+                        <Button class="button1" th:text="#{addCart}" ></Button>
+                    </li>
+                    <a th:href="@{|/pedidos/${pedido}/remove/*{idProducto}|}">
+                        <Button class="button1" th:text="#{removeCart}" ></Button>
+                    </a>
+                </div>
+            </li>
+
+            </li>
+            <li th:class="list-group-item">
+                <form th:action="@{/home/}">
+                    <input type="submit" th:value="#{new}" class="btn btn-primary">
+                </form>
+            </li>
+        </ul>
+
+
+
+    </main>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+		th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
