@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head.html :: head}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/bodysHeader.html :: header}">
+    </div>
+    <main>
+        <h1>Lista de Favoritos</h1>
+
+        <div class="columnaFavoritos">
+            <h1 th:text="#{cartfavoritos} "></h1>
+            <div th:each="producto : ${listaFavoritos}" th:object="${producto}">
+                <span th:text="'ID: ' +  ${producto.idProducto}"></span>
+                <span th:text="'   ' + ${producto.nombreProducto}"></span>
+                <span th:text="'   ' + ${producto.precio} + '$'"></span>
+            </div>
+            <div>
+                <a th:href="@{|/favoritos|}" >
+                    <Button class="button" th:text="#{favoritos} "></Button>  
+                                  
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>
