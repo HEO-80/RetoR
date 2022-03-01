@@ -2,6 +2,7 @@ package com.example.recuperacion.MVC;
 
 import com.example.recuperacion.Controllers.PedidosController;
 import com.example.recuperacion.Controllers.ProductosController;
+import com.example.recuperacion.Models.Pedidos;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,37 @@ public class PedidosViewController {
     public ModelAndView CreatePedido() {
         ModelAndView m = new ModelAndView("home");
         m.addObject("pedido", PedidosController.addPedido());
+        m.addObject("productos", ProductosController.productos);
+        return m;
+    }
+
+    @GetMapping("/pedidos/borrar/{idPedido}")
+    public ModelAndView DeleteOrder(@PathVariable int idPedido) {
+        ModelAndView m = new ModelAndView("/home");
+        PedidosController.borrarPedido(idPedido);
+        Pedidos pedido = PedidosController.addPedido();
+        m.addObject("prductos", ProductosController.GetProductosByPedidoId(idPedido));
+        m.addObject("pedido", PedidosController.getPedidosByIdPedido(pedido.getIdPedido()).get(idPedido));
+        m.addObject("favoritos", PedidosController.GetPedidosById(pedido.getIdPedido()).getListaFavoritos());
+        return m;
+    }
+
+    @GetMapping("/pedidos/{idPedido}/add/{idProducto}")
+    public static ModelAndView addProductoToPedido(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        ModelAndView m = new ModelAndView("home");
+        PedidosController.addProductoToPedidos(idPedido, idProducto);
+        m.addObject("pedido", PedidosController.GetPedidosById(idPedido));
+        m.addObject("productos", ProductosController.productos);
+        return m;
+    }
+
+    @GetMapping("/pedidos/{idPedido}/remove/{idProducto}")
+    public static ModelAndView removeProductoFromPedido(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        ModelAndView m = new ModelAndView("home");
+        PedidosController.deleteProductoFromPedidos(idPedido, idProducto);
+        m.addObject("pedido", PedidosController.GetPedidosById(idPedido));
         m.addObject("productos", ProductosController.productos);
         return m;
     }
