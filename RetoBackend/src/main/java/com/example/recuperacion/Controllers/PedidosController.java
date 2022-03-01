@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.recuperacion.Models.Pedidos;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,7 +34,6 @@ public class PedidosController {
         return PedidosController.getAllPedidos(idProducto, idProducto);
     }
 
-    
     @GetMapping("Pedidos/{idPedido}")
     public static Pedidos GetPedidosById(@PathVariable("idPedido") int idPedido) {
         // Error con los HttpServletRequest y HttpServletResponse
@@ -86,6 +90,26 @@ public class PedidosController {
             }
         }
         return p;
+    }
+
+    // permite añadir productos a un pedido
+    @GetMapping("/v2/Pedidos/{idPedido}/new/{idProducto}")
+    public static void addProductoToPedidos(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        PedidosController.GetPedidosById(idPedido)
+                .addCantidadOfProducto(ProductosController.FindProductoByIdProducto(idProducto));
+    }
+
+    // permite borrar productos de un pedido
+    @DeleteMapping("/v2/Pedidos/{idPedido}/delete/{idProducto}")
+    public static void deleteProductoFromPedidos(@PathVariable("idPedido") int idPedido,
+            @PathVariable("idProducto") int idProducto) {
+        try {
+            PedidosController.GetPedidosById(idPedido)
+                    .restarCantidadOfProducto(ProductosController.FindProductoByIdProducto(idProducto));
+        } catch (Exception e) {
+
+        }
     }
 
 }
