@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/head.html :: head}">
+</head>
+
+
+<body>
+    <div class="p-5 text-center bg-light">
+        <h1 class="mb-3" th:text="#{Header}"></h1>
+        <h4 class="mb-3" th:text="#{SubHeader}"></h4>
+        <a class="btn btn-primary" th:href="@{/home}" role="button" th:text="#{Action}"></a>
+    </div>
+
+
+
+    </body>
+
+</html>
